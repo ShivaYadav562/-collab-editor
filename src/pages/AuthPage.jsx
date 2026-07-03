@@ -16,11 +16,9 @@ export default function AuthPage() {
 
   const handleAuth = async () => {
   try {
-
-    const endpoint = isLogin
-      ? "http://localhost:5000/api/auth/login"
-      : "http://localhost:5000/api/auth/signup";
-
+const endpoint = isLogin
+  ? "https://collab-editor-backend-1-fyl1.onrender.com/api/auth/login"
+  : "https://collab-editor-backend-1-fyl1.onrender.com/api/auth/signup";
     const response = await fetch(endpoint, {
       method: "POST",
 
