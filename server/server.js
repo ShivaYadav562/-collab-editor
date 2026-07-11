@@ -110,23 +110,24 @@ io.on("connection", (socket) => {
 
   // CODE SYNC
   socket.on("send_message", async (data) => {
-    console.log("SEND_MESSAGE:", data);
-    
-    if (!data?.room || typeof data.message !== "string") return;
+  console.log("SEND_MESSAGE:", data);
 
-    roomCode[data.room] = data.message;
+  if (!data?.room || typeof data.message !== "string") return;
 
-    await Room.findOneAndUpdate(
-      { roomId: data.room },
-      { code: data.message },
-      { upsert: true }
-    );
+  roomCode[data.room] = data.message;
 
-    socket.emit("saved");
+  const updatedRoom = await Room.findOneAndUpdate(
+    { roomId: data.room },
+    { code: data.message },
+    { upsert: true, new: true }
+  );
 
-    socket.to(data.room).emit("receive_message", data.message);
-  });
+  console.log("UPDATED ROOM:", updatedRoom);
 
+  socket.emit("saved");
+
+  socket.to(data.room).emit("receive_message", data.message);
+});
   
   // LANGUAGE SYNC
 socket.on("language_change", async (data) => {
