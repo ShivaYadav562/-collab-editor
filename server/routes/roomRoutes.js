@@ -1,5 +1,6 @@
 const express = require("express");
 const Room = require("../models/Room");
+const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -8,7 +9,7 @@ router.get("/create", (req, res) => {
 });
 
 // CREATE ROOM
-router.post("/create", async (req, res) => {
+router.post("/create", authMiddleware, async (req, res) => {
 
   console.log("ROOM API HIT");
   console.log("BODY:", req.body);

@@ -13,11 +13,45 @@ router.post("/signup", async (req, res) => {
 
     const { username, email, password } = req.body;
 
+    // Required Fields
+if (!username || !email || !password) {
+  return res.status(400).json({
+    message: "All fields are required",
+  });
+}
+
+// Email Validation
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (!emailRegex.test(email)) {
+  return res.status(400).json({
+    message: "Please enter a valid email address",
+  });
+}
+
+// Username Validation
+if (username.trim().length < 3) {
+  return res.status(400).json({
+    message: "Username must be at least 3 characters.",
+  });
+}
+
+// Password Validation
+const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#])[A-Za-z\d@$!%*?&.#]{8,}$/;
+
+if (!passwordRegex.test(password)) {
+  return res.status(400).json({
+    message:
+      "Password must be at least 8 characters and include uppercase, lowercase, number and special character.",
+  });
+}
+
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
       return res.status(400).json({
-        message: "User already exists",
+      message: "An account with this email already exists.",
       });
     }
 
@@ -55,11 +89,25 @@ router.post("/login", async (req, res) => {
 
     const { email, password } = req.body;
 
+    if (!email || !password) {
+  return res.status(400).json({
+    message: "Email and Password are required",
+  });
+}
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (!emailRegex.test(email)) {
+  return res.status(400).json({
+    message: "Please enter a valid email address",
+  });
+}
+
     const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(400).json({
-        message: "Invalid credentials",
+        message: "User not found. Please sign up first.",
       });
     }
 
@@ -70,7 +118,7 @@ router.post("/login", async (req, res) => {
 
     if (!isMatch) {
       return res.status(400).json({
-        message: "Invalid credentials",
+        message: "Incorrect password.",
       });
     }
 
