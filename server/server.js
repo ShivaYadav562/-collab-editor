@@ -115,7 +115,7 @@ io.on("connection", (socket) => {
     roomCode[data.room] = data.message;
 
     await Room.findOneAndUpdate(
-      { roomId: data.room },cld
+      { roomId: data.room },
       { code: data.message },
       { upsert: true }
     );
