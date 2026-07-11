@@ -115,7 +115,7 @@ io.on("connection", (socket) => {
     roomCode[data.room] = data.message;
 
     await Room.findOneAndUpdate(
-      { roomId: data.room },
+      { roomId: data.room },cld
       { code: data.message },
       { upsert: true }
     );
@@ -125,17 +125,27 @@ io.on("connection", (socket) => {
     socket.to(data.room).emit("receive_message", data.message);
   });
 
+  
   // LANGUAGE SYNC
-  socket.on("language_change", (data) => {
-    if (!data?.room) return;
+socket.on("language_change", async (data) => {
+  if (!data?.room) return;
 
-    roomLanguage[data.room] = data.language;
+  roomLanguage[data.room] = data.language;
 
-    socket.to(data.room).emit(
-      "language_change",
-      data.language
-    );
-  });
+ 
+  await Room.findOneAndUpdate(
+    { roomId: data.room },
+    {
+      language: data.language,
+    },
+    { upsert: true }
+  );
+
+  socket.to(data.room).emit(
+    "language_change",
+    data.language
+  );
+});
 
   // CHAT
   socket.on("send_chat", ({ room, message }) => {
