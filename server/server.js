@@ -110,6 +110,8 @@ io.on("connection", (socket) => {
 
   // CODE SYNC
   socket.on("send_message", async (data) => {
+    console.log("SEND_MESSAGE:", data);
+    
     if (!data?.room || typeof data.message !== "string") return;
 
     roomCode[data.room] = data.message;
