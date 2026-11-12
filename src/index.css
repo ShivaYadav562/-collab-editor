@@ -12,7 +12,7 @@ body {
   background: #0f172a;
   color: #e2e8f0;
   font-family: "Segoe UI", sans-serif;
-  overflow: hidden;
+  overflow: auto;
 }
 
 /* CONTAINER */
@@ -109,7 +109,7 @@ body {
   gap: 12px;
   height: calc(100vh - 55px);
   margin-top: 55px;
-  overflow: hidden;
+  overflow: auto;
   padding: 14px;
 }
 /* SIDEBAR */
@@ -131,7 +131,7 @@ body {
   flex-direction: column;
   background: rgba(255,255,255,0.03);
   border-radius: 18px;
-  overflow: hidden;
+  overflow: auto;
   border: 1px solid rgba(255,255,255,0.05);
 }
 
@@ -152,7 +152,7 @@ body {
   height: calc(100vh - 85px);
   background: rgba(255,255,255,0.04);
   border-radius: 18px;
-  overflow: hidden;
+  overflow: auto;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255,255,255,0.05);
 }
